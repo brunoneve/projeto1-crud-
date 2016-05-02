@@ -2,6 +2,7 @@
 
 namespace CursoCode\Http\Controllers;
 
+use CursoCode\Client;
 use Illuminate\Http\Request;
 
 use CursoCode\Http\Requests;
@@ -15,18 +16,9 @@ class ClientController extends Controller
      */
     public function index()
     {
-        //
+        return Client::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -36,7 +28,7 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return Client::create($request->all());
     }
 
     /**
@@ -47,19 +39,9 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        //
+        return Client::find($id);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -70,7 +52,7 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        Client::find($id)->update($request->all());
     }
 
     /**
@@ -81,6 +63,6 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        //
+       Client::find($id)->delete();
     }
 }

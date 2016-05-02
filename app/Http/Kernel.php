@@ -28,7 +28,6 @@ class Kernel extends HttpKernel
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \CursoCode\Http\Middleware\VerifyCsrfToken::class,
         ],
 
         'api' => [
@@ -49,5 +48,7 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Foundation\Http\Middleware\Authorize::class,
         'guest' => \CursoCode\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'csrf'  =>  \CursoCode\Http\Middleware\VerifyCsrfToken::class,
+
     ];
 }
