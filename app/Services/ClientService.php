@@ -5,6 +5,7 @@ namespace CursoCode\Services;
 
 use CursoCode\Repositories\ClientRepository;
 use CursoCode\Validators\ClientValidator;
+use Mockery\CountValidator\Exception;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 class ClientService
@@ -43,7 +44,6 @@ class ClientService
 
     public function update(array $data, $id)
     {
-
         try {
             $this->validator->with($data)->passesOrFail();
 
@@ -55,6 +55,27 @@ class ClientService
                 'message' => $e->getMessageBag()
             ];
         }
+    }
 
+    public function destroy($id)
+    {
+        try{
+            $client = $this->repository->find($id);
+
+            if($client){
+                $this->repository->delete($id);
+
+                return [
+                    'success' => true,
+                    'message' => 'Client successfully deleted'
+                ];
+            }
+
+        }catch (\Exception $e) {
+            return [
+                'success' => 'false',
+                'message' => "Could not delete the Client {$id}"
+            ];
+        }
     }
 }
