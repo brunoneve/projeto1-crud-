@@ -2,22 +2,44 @@
 
 namespace CursoCode\Http\Controllers;
 
-use CursoCode\Entities\Client;
 use CursoCode\Repositories\ClientRepository;
+use CursoCode\Services\ClientService;
 use Illuminate\Http\Request;
 
-use CursoCode\Http\Requests;
 
 class ClientController extends Controller
 {
+
+    /**
+     * @var ClientRepository
+     */
+    private $repository;
+
+
+    /**
+     * @var ClientService
+     */
+    private $service;
+
+    /**
+     * ClientController constructor.
+     * @param ClientRepository $repository
+     * @param ClientService $service
+     */
+    public function __construct(ClientRepository $repository, ClientService $service)
+    {
+        $this->repository = $repository;
+        $this->service = $service;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(ClientRepository $repository)
+    public function index()
     {
-        return $repository->all();
+        return $this->repository->all();
     }
 
 
@@ -29,7 +51,7 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        return Client::create($request->all());
+        return $this->service->create($request->all());
     }
 
     /**
@@ -40,7 +62,7 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        return Client::find($id);
+        return $this->repository->find($id);
     }
 
 
@@ -53,7 +75,7 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return Client::find($id)->update($request->all());
+        return $this->service->update($request->all(),$id);
     }
 
     /**
@@ -64,6 +86,6 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-       Client::find($id)->delete();
+        return $this->repository->delete($id);
     }
 }
