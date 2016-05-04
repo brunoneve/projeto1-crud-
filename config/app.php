@@ -157,6 +157,7 @@ return [
         CursoCode\Providers\AuthServiceProvider::class,
         CursoCode\Providers\EventServiceProvider::class,
         CursoCode\Providers\RouteServiceProvider::class,
+        CursoCode\Providers\CursoCodeRepositoryProvider::class,
 
     ],
 
