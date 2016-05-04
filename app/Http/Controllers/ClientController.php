@@ -2,7 +2,8 @@
 
 namespace CursoCode\Http\Controllers;
 
-use CursoCode\Client;
+use CursoCode\Entities\Client;
+use CursoCode\Repositories\ClientRepositoryEloquent;
 use Illuminate\Http\Request;
 
 use CursoCode\Http\Requests;
@@ -14,9 +15,9 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(ClientRepositoryEloquent $repository)
     {
-        return Client::all();
+        return $repository->all();
     }
 
 

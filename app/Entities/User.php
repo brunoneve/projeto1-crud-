@@ -1,6 +1,6 @@
 <?php
 
-namespace CursoCode;
+namespace CursoCode\Entities;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
