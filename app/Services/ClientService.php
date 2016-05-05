@@ -5,7 +5,6 @@ namespace CursoCode\Services;
 
 use CursoCode\Repositories\ClientRepository;
 use CursoCode\Validators\ClientValidator;
-use Mockery\CountValidator\Exception;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 class ClientService
