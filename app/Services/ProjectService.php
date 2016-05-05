@@ -18,13 +18,21 @@ class ProjectService
      */
     protected $validator;
 
+    /**
+     * ProjectService constructor.
+     * @param ProjectRepository $repository
+     * @param ProjectValidator $validator
+     */
     public function __construct(ProjectRepository $repository, ProjectValidator $validator)
     {
         $this->repository = $repository;
         $this->validator = $validator;
     }
 
-
+    /**
+     * @param array $data
+     * @return array|mixed
+     */
     public function create(array $data)
     {
         try {
@@ -40,7 +48,11 @@ class ProjectService
         }
     }
 
-
+    /**
+     * @param array $data
+     * @param $id
+     * @return array|mixed
+     */
     public function update(array $data, $id)
     {
         try {
@@ -56,6 +68,10 @@ class ProjectService
         }
     }
 
+    /**
+     * @param $id
+     * @return array
+     */
     public function destroy($id)
     {
         try{
