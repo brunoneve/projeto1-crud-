@@ -41,3 +41,11 @@ $factory->define(CursoCode\Entities\Project::class, function (Faker\Generator $f
         'status' => rand(1,3),
     ];
 });
+
+$factory->define(CursoCode\Entities\ProjectNote::class, function (Faker\Generator $faker) {
+    return [
+        'project_id' => rand(1,10),
+        'title' => $faker->word,
+        'note' => $faker->paragraph,
+    ];
+});

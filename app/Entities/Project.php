@@ -38,4 +38,11 @@ class Project extends Model implements Transformable
         return $this->belongsTo(Client::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function notes()
+    {
+        return $this->hasMany(ProjectNote::class);
+    }
 }
