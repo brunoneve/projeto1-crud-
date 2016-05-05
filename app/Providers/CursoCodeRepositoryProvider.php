@@ -27,5 +27,9 @@ class CursoCodeRepositoryProvider extends ServiceProvider
             \CursoCode\Repositories\ClientRepository::class,
             \CursoCode\Repositories\ClientRepositoryEloquent::class
         );
+        $this->app->bind(
+            \CursoCode\Repositories\ProjectRepository::class,
+            \CursoCode\Repositories\ProjectRepositoryEloquent::class
+        );
     }
 }
