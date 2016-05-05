@@ -4,9 +4,7 @@ namespace CursoCode\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use CursoCode\Repositories\ProjectRepository;
 use CursoCode\Entities\Project;
-use CursoCode\Validators\ProjectValidator;
 
 /**
  * Class ProjectRepositoryEloquent
