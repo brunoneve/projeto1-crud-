@@ -3,27 +3,27 @@
 namespace CursoCode\Services;
 
 
-use CursoCode\Repositories\ProjectRepository;
-use CursoCode\Validators\ProjectValidator;
+use CursoCode\Repositories\ProjectNoteRepository;
+use CursoCode\Validators\ProjectNoteValidator;
 use Prettus\Validator\Exceptions\ValidatorException;
 
-class ProjectService
+class ProjectNoteService
 {
     /**
-     * @var ProjectRepository
+     * @var ProjectNoteRepository
      */
     protected $repository;
     /**
-     * @var ProjectValidator
+     * @var ProjectNoteValidator
      */
     protected $validator;
 
     /**
      * ProjectService constructor.
-     * @param ProjectRepository $repository
-     * @param ProjectValidator $validator
+     * @param ProjectNoteRepository $repository
+     * @param ProjectNoteValidator $validator
      */
-    public function __construct(ProjectRepository $repository, ProjectValidator $validator)
+    public function __construct(ProjectNoteRepository $repository, ProjectNoteValidator $validator)
     {
         $this->repository = $repository;
         $this->validator = $validator;
@@ -75,21 +75,21 @@ class ProjectService
     public function destroy($id)
     {
         try{
-            $project = $this->repository->find($id);
+            $projectNote = $this->repository->find($id);
 
-            if($project){
+            if($projectNote){
                 $this->repository->delete($id);
 
                 return [
                     'success' => true,
-                    'message' => 'Project successfully deleted'
+                    'message' => 'Project Note successfully deleted'
                 ];
             }
 
         }catch (\Exception $e) {
             return [
                 'success' => 'false',
-                'message' => "Could not delete the Project {$id}"
+                'message' => "Could not delete the Project Note {$id}"
             ];
         }
     }
