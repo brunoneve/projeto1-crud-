@@ -38,9 +38,7 @@ class ProjectService
     public function all()
     {
         try{
-            $clients = $this->repository->with(['owner','client'])->all();
-
-            return $clients;
+            return $this->repository->with(['owner','client'])->all();
 
         } catch (\Exception $e) {
             return [
@@ -58,9 +56,7 @@ class ProjectService
     public function find($id)
     {
         try{
-            $project = $this->repository->with(['owner','client'])->find($id);
-
-            return $project;
+            return $this->repository->with(['owner','client'])->find($id);
 
         } catch (\Exception $e) {
             return [

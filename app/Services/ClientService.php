@@ -32,9 +32,7 @@ class ClientService
     public function all()
     {
         try{
-            $clients = $this->repository->all();
-
-            return $clients;
+            return $this->repository->all();
 
         } catch (\Exception $e) {
             return [
@@ -51,9 +49,7 @@ class ClientService
     public function find($id)
     {
         try{
-            $client = $this->repository->find($id);
-
-            return $client;
+            return $this->repository->find($id);
 
         } catch (\Exception $e) {
             return [
