@@ -79,6 +79,11 @@ class ClientService
                 'error' => true,
                 'message' => $e->getMessageBag()
             ];
+        } catch (\Exception $e) {
+            return [
+                "error"      => true,
+                "message"    => 'Ocorreu algum erro ao gravar o registro.'
+            ];
         }
     }
 
@@ -98,6 +103,11 @@ class ClientService
             return [
                 'error' => true,
                 'message' => $e->getMessageBag()
+            ];
+        } catch (\Exception $e) {
+            return [
+                "error"      => true,
+                "message"    => 'Ocorreu algum erro ao atualizar o registro.'
             ];
         }
     }
