@@ -2,7 +2,6 @@
 
 namespace CursoCode\Http\Controllers;
 
-use CursoCode\Repositories\ProjectRepository;
 use CursoCode\Services\ProjectService;
 use Illuminate\Http\Request;
 
@@ -11,24 +10,16 @@ class ProjectController extends Controller
 {
 
     /**
-     * @var ProjectRepository
-     */
-    private $repository;
-
-
-    /**
      * @var ProjectService
      */
     private $service;
 
     /**
      * ProjectController constructor.
-     * @param ProjectRepository $repository
      * @param ProjectService $service
      */
-    public function __construct(ProjectRepository $repository, ProjectService $service)
+    public function __construct(ProjectService $service)
     {
-        $this->repository = $repository;
         $this->service = $service;
     }
 
@@ -39,7 +30,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return $this->repository->with(['owner','client'])->all();
+        return $this->service->all();
     }
 
 
@@ -62,7 +53,7 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        return $this->repository->with(['owner','client'])->find($id);
+        return $this->service->find($id);
     }
 
 
