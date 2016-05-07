@@ -5,6 +5,8 @@ namespace CursoCode\Services;
 
 use CursoCode\Repositories\ProjectRepository;
 use CursoCode\Validators\ProjectValidator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 class ProjectService
@@ -29,6 +31,46 @@ class ProjectService
         $this->validator = $validator;
     }
 
+
+    /**
+     * @return array|mixed
+     */
+    public function all()
+    {
+        try{
+            $clients = $this->repository->with(['owner','client'])->all();
+
+            return $clients;
+
+        } catch (\Exception $e) {
+            return [
+                "error"      => true,
+                "message"    => 'Nenhum registro encontrado.'
+            ];
+        }
+    }
+
+
+    /**
+     * @param $id
+     * @return array|mixed
+     */
+    public function find($id)
+    {
+        try{
+            $project = $this->repository->with(['owner','client'])->find($id);
+
+            return $project;
+
+        } catch (\Exception $e) {
+            return [
+                "error"      => true,
+                "message"    => 'Projeto não localizado.'
+            ];
+        }
+    }
+
+
     /**
      * @param array $data
      * @return array|mixed
@@ -44,6 +86,11 @@ class ProjectService
             return [
                 'error' => true,
                 'message' => $e->getMessageBag()
+            ];
+        } catch (\Exception $e) {
+            return [
+                "error"      => true,
+                "message"    => 'Ocorreu algum erro ao gravar o registro.'
             ];
         }
     }
@@ -65,6 +112,11 @@ class ProjectService
                 'error' => true,
                 'message' => $e->getMessageBag()
             ];
+        } catch (\Exception $e) {
+            return [
+                "error"      => true,
+                "message"    => 'Ocorreu algum erro ao atualizar o registro.'
+            ];
         }
     }
 
@@ -74,22 +126,26 @@ class ProjectService
      */
     public function destroy($id)
     {
-        try{
-            $project = $this->repository->find($id);
-
-            if($project){
-                $this->repository->delete($id);
-
-                return [
-                    'success' => true,
-                    'message' => 'Project successfully deleted'
-                ];
-            }
-
-        }catch (\Exception $e) {
+        try {
+            $this->repository->delete($id);
             return [
-                'success' => 'false',
-                'message' => "Could not delete the Project {$id}"
+                'success' => true,
+                "message" => 'Projeto excluído com sucesso.'
+            ];
+        } catch (ModelNotFoundException $e) {
+            return [
+                'error'      => true,
+                'message'    => 'Projeto não localizado.'
+            ];
+        } catch (QueryException $e) {
+            return [
+                'error'      => true,
+                'message'    => 'Este Projeto não pode ser excluído, pois existe um ou mais membros vinculados a ele.'
+            ];
+        } catch (\Exception $e) {
+            return [
+                "error"      => true,
+                "message"    => 'Falha ao excluir Projeto. Tente novamente.'
             ];
         }
     }
