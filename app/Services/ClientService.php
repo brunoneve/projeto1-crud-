@@ -5,6 +5,8 @@ namespace CursoCode\Services;
 
 use CursoCode\Repositories\ClientRepository;
 use CursoCode\Validators\ClientValidator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 class ClientService
@@ -24,7 +26,47 @@ class ClientService
         $this->validator = $validator;
     }
 
+    /**
+     * @return array|mixed
+     */
+    public function all()
+    {
+        try{
+            $clients = $this->repository->all();
 
+            return $clients;
+
+        } catch (\Exception $e) {
+            return [
+                "error"      => true,
+                "message"    => 'Nenhum registro encontrado.'
+            ];
+        }
+    }
+
+    /**
+     * @param $id
+     * @return array|mixed
+     */
+    public function find($id)
+    {
+        try{
+            $client = $this->repository->find($id);
+
+            return $client;
+
+        } catch (\Exception $e) {
+            return [
+                "error"      => true,
+                "message"    => 'Cliente não localizado.'
+            ];
+        }
+    }
+
+    /**
+     * @param array $data
+     * @return array|mixed
+     */
     public function create(array $data)
     {
         try {
@@ -40,7 +82,11 @@ class ClientService
         }
     }
 
-
+    /**
+     * @param array $data
+     * @param $id
+     * @return array|mixed
+     */
     public function update(array $data, $id)
     {
         try {
@@ -56,25 +102,34 @@ class ClientService
         }
     }
 
+    /**
+     * @param $id
+     * @return array
+     */
     public function destroy($id)
     {
-        try{
-            $client = $this->repository->find($id);
-
-            if($client){
-                $this->repository->delete($id);
-
-                return [
-                    'success' => true,
-                    'message' => 'Client successfully deleted'
-                ];
-            }
-
-        }catch (\Exception $e) {
+        try {
+            $this->repository->delete($id);
             return [
-                'success' => 'false',
-                'message' => "Could not delete the Client {$id}"
+                'success' => true,
+                "message" => 'Cliente excluído com sucesso.'
+            ];
+        } catch (ModelNotFoundException $e) {
+            return [
+                'error'      => true,
+                'message'    => 'Cliente não localizado.'
+            ];
+        } catch (QueryException $e) {
+            return [
+                'error'      => true,
+                'message'    => 'Este Cliente não pode ser excluído, pois existe um ou mais projetos vinculados a ele.'
+            ];
+        } catch (\Exception $e) {
+            return [
+                "error"      => true,
+                "message"    => 'Falha ao excluir Cliente. Tente novamente.'
             ];
         }
+
     }
 }

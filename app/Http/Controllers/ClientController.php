@@ -2,20 +2,12 @@
 
 namespace CursoCode\Http\Controllers;
 
-use CursoCode\Repositories\ClientRepository;
 use CursoCode\Services\ClientService;
 use Illuminate\Http\Request;
 
 
 class ClientController extends Controller
 {
-
-    /**
-     * @var ClientRepository
-     */
-    private $repository;
-
-
     /**
      * @var ClientService
      */
@@ -23,12 +15,10 @@ class ClientController extends Controller
 
     /**
      * ClientController constructor.
-     * @param ClientRepository $repository
      * @param ClientService $service
      */
-    public function __construct(ClientRepository $repository, ClientService $service)
+    public function __construct(ClientService $service)
     {
-        $this->repository = $repository;
         $this->service = $service;
     }
 
@@ -39,7 +29,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return $this->repository->all();
+        return $this->service->all();
     }
 
 
@@ -62,7 +52,8 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        return $this->repository->find($id);
+
+        return $this->service->find($id);
     }
 
 
