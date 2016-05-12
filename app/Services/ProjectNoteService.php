@@ -5,6 +5,7 @@ namespace CursoCode\Services;
 
 use CursoCode\Repositories\ProjectNoteRepository;
 use CursoCode\Validators\ProjectNoteValidator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 class ProjectNoteService
@@ -30,6 +31,40 @@ class ProjectNoteService
     }
 
     /**
+     * @param $id
+     * @return array|mixed
+     */
+    public function all($id)
+    {
+        try{
+           return $this->repository->findWhere(['project_id' => $id]);
+        } catch (\Exception $e) {
+            return [
+                "error"      => true,
+                "message"    => 'Nenhuma anotação encontrado para esse projeto.'
+            ];
+        }
+    }
+
+    /**]
+     * @param $id
+     * @param $note_id
+     * @return array|mixed
+     */
+    public function find($id,$note_id)
+    {
+        try{
+            return $this->repository->findWhere(['project_id' => $id, 'id' => $note_id]);
+
+        } catch (\Exception $e) {
+            return [
+                "error"      => true,
+                "message"    => 'Nota não localizada.'
+            ];
+        }
+    }
+
+    /**
      * @param array $data
      * @return array|mixed
      */
@@ -44,6 +79,11 @@ class ProjectNoteService
             return [
                 'error' => true,
                 'message' => $e->getMessageBag()
+            ];
+        } catch (\Exception $e) {
+            return [
+                "error"      => true,
+                "message"    => 'Ocorreu algum erro ao gravar o registro.'
             ];
         }
     }
@@ -65,6 +105,11 @@ class ProjectNoteService
                 'error' => true,
                 'message' => $e->getMessageBag()
             ];
+        } catch (\Exception $e) {
+            return [
+                "error"      => true,
+                "message"    => 'Ocorreu algum erro ao atualizar o registro.'
+            ];
         }
     }
 
@@ -74,22 +119,21 @@ class ProjectNoteService
      */
     public function destroy($id)
     {
-        try{
-            $projectNote = $this->repository->find($id);
-
-            if($projectNote){
-                $this->repository->delete($id);
-
-                return [
-                    'success' => true,
-                    'message' => 'Project Note successfully deleted'
-                ];
-            }
-
-        }catch (\Exception $e) {
+        try {
+            $this->repository->delete($id);
             return [
-                'success' => 'false',
-                'message' => "Could not delete the Project Note {$id}"
+                'success' => true,
+                "message" => 'Nota excluída com sucesso.'
+            ];
+        } catch (ModelNotFoundException $e) {
+            return [
+                'error'      => true,
+                'message'    => 'Projeto não localizado.'
+            ];
+        } catch (\Exception $e) {
+            return [
+                "error"      => true,
+                "message"    => 'Falha ao excluir Nota. Tente novamente.'
             ];
         }
     }

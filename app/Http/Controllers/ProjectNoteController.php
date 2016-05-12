@@ -2,7 +2,6 @@
 
 namespace CursoCode\Http\Controllers;
 
-use CursoCode\Repositories\ProjectNoteRepository;
 use CursoCode\Services\ProjectNoteService;
 use Illuminate\Http\Request;
 
@@ -11,24 +10,16 @@ class ProjectNoteController extends Controller
 {
 
     /**
-     * @var ProjectNoteRepository
-     */
-    private $repository;
-
-
-    /**
      * @var ProjectNoteService
      */
     private $service;
 
     /**
      * ProjectController constructor.
-     * @param ProjectNoteRepository $repository
      * @param ProjectNoteService $service
      */
-    public function __construct(ProjectNoteRepository $repository, ProjectNoteService $service)
+    public function __construct(ProjectNoteService $service)
     {
-        $this->repository = $repository;
         $this->service = $service;
     }
 
@@ -38,7 +29,7 @@ class ProjectNoteController extends Controller
      */
     public function index($id)
     {
-        return $this->repository->findWhere(['project_id' => $id]);
+        return $this->service->all($id);//(['project_id' => $id]);
     }
 
 
@@ -62,7 +53,7 @@ class ProjectNoteController extends Controller
      */
     public function show($id, $note_id)
     {
-        return $this->repository->findWhere(['project_id' => $id, 'id' => $note_id]);
+        return $this->service->find($id,$note_id);
     }
 
 
