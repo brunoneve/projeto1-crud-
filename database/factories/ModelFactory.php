@@ -54,7 +54,8 @@ $factory->define(CursoCode\Entities\ProjectTask::class, function (Faker\Generato
     return [
         'project_id' => rand(1,10),
         'name' => $faker->word,
-        'start_date' => $faker->date('now'),
-        'status' => rand(1,3),
+        'start_date' => $faker->dateTime('now'),
+        'due_date' => $faker->dateTime('now'),
+        'status' => rand(1, 3)
     ];
 });

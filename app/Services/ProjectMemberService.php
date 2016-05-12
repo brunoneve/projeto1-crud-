@@ -3,28 +3,28 @@
 namespace CursoCode\Services;
 
 
-use CursoCode\Repositories\ProjectTaskRepository;
-use CursoCode\Validators\ProjectTaskValidator;
+use CursoCode\Repositories\ProjectMemberRepository;
+use CursoCode\Validators\ProjectMemberValidator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Prettus\Validator\Exceptions\ValidatorException;
 
-class ProjectTaskService
+class ProjectMemberService
 {
     /**
-     * @var ProjectTaskRepository
+     * @var ProjectMemberRepository
      */
     protected $repository;
     /**
-     * @var ProjectTaskValidator
+     * @var ProjectMemberValidator
      */
     protected $validator;
 
     /**
      * ProjectService constructor.
-     * @param ProjectTaskRepository $repository
-     * @param ProjectTaskValidator $validator
+     * @param ProjectMemberRepository $repository
+     * @param ProjectMemberValidator $validator
      */
-    public function __construct(ProjectTaskRepository $repository, ProjectTaskValidator $validator)
+    public function __construct(ProjectMemberRepository $repository, ProjectMemberValidator $validator)
     {
         $this->repository = $repository;
         $this->validator = $validator;
@@ -41,7 +41,7 @@ class ProjectTaskService
         } catch (\Exception $e) {
             return [
                 "error"      => true,
-                "message"    => 'Nenhum tarefa encontrada para esse projeto.'
+                "message"    => 'Nenhum membro encontrado para esse projeto.'
             ];
         }
     }
@@ -59,7 +59,7 @@ class ProjectTaskService
         } catch (\Exception $e) {
             return [
                 "error"      => true,
-                "message"    => 'Tarefa não localizada.'
+                "message"    => 'Membro não localizada.'
             ];
         }
     }
@@ -123,17 +123,17 @@ class ProjectTaskService
             $this->repository->delete($id);
             return [
                 'success' => true,
-                "message" => 'Tarefa excluída com sucesso.'
+                "message" => 'Membro excluída com sucesso.'
             ];
         } catch (ModelNotFoundException $e) {
             return [
                 'error'      => true,
-                'message'    => 'Tarefa não localizado.'
+                'message'    => 'Membro não localizado.'
             ];
         } catch (\Exception $e) {
             return [
                 "error"      => true,
-                "message"    => 'Falha ao excluir tarefa. Tente novamente.'
+                "message"    => 'Falha ao excluir membro. Tente novamente.'
             ];
         }
     }
