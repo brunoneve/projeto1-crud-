@@ -49,3 +49,12 @@ $factory->define(CursoCode\Entities\ProjectNote::class, function (Faker\Generato
         'note' => $faker->paragraph,
     ];
 });
+
+$factory->define(CursoCode\Entities\ProjectTask::class, function (Faker\Generator $faker) {
+    return [
+        'project_id' => rand(1,10),
+        'name' => $faker->word,
+        'start_date' => $faker->date('now'),
+        'status' => rand(1,3),
+    ];
+});
