@@ -21,4 +21,47 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
         return Project::class;
     }
 
+    /**
+     * @param $project_id
+     * @param $member_id
+     * @return bool
+     */
+    public function isMember($project_id, $member_id)
+    {
+        if ($this->find($project_id)->members()->find($member_id))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param $project_id
+     * @param $member_id
+     * @return bool
+     */
+    public function addMember($project_id, $member_id)
+    {
+        $project = $this->find($project_id);
+        if ($project->members->contains('id', $member_id))
+        {
+            return false;
+        }
+        $project->members()->attach($member_id);
+        return true;
+    }
+
+    /**
+     * @param $project_id
+     * @param $member_id
+     * @return bool
+     */
+    public function removeMember($project_id, $member_id)
+    {
+        if ($this->find($project_id)->members()->detach($member_id))
+        {
+            return true;
+        }
+        return false;
+    }
 }

@@ -2,7 +2,7 @@
 
 namespace CursoCode\Http\Controllers;
 
-use CursoCode\Services\ProjectTaskService;
+use CursoCode\Services\ProjectMemberService;
 use Illuminate\Http\Request;
 
 
@@ -10,15 +10,15 @@ class ProjectMemberController extends Controller
 {
 
     /**
-     * @var ProjectTaskService
+     * @var ProjectMemberService
      */
     private $service;
 
     /**
-     * ProjectController constructor.
-     * @param ProjectTaskService $service
+     * ProjectMemberController constructor.
+     * @param ProjectMemberService $service
      */
-    public function __construct(ProjectTaskService $service)
+    public function __construct(ProjectMemberService $service)
     {
         $this->service = $service;
     }
@@ -46,12 +46,12 @@ class ProjectMemberController extends Controller
      * Display the specified resource.
      *
      * @param  int  $project_id
-     * @param  int  $task_id
+     * @param  int  $member_id
      * @return \Illuminate\Http\Response
      */
-    public function show($project_id, $task_id)
+    public function show($project_id, $member_id)
     {
-        return $this->service->find($project_id,$task_id);
+        return $this->service->find($project_id,$member_id);
     }
 
 
@@ -60,23 +60,23 @@ class ProjectMemberController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $project_id
-     * @param  int  $task_id
+     * @param  int  $member_id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $project_id, $task_id)
+    public function update(Request $request, $project_id, $member_id)
     {
-        return $this->service->update($request->all(), $task_id);
+        return $this->service->update($request->all(), $member_id);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $project_id
-     * @param  int  $task_id
+     * @param  int  $member_id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($project_id, $task_id)
+    public function destroy($project_id, $member_id)
     {
-        return $this->service->destroy($task_id);
+        return $this->service->destroy($project_id, $member_id);
     }
 }

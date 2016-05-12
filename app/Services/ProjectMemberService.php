@@ -4,6 +4,7 @@ namespace CursoCode\Services;
 
 
 use CursoCode\Repositories\ProjectMemberRepository;
+use CursoCode\Repositories\ProjectRepository;
 use CursoCode\Validators\ProjectMemberValidator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Prettus\Validator\Exceptions\ValidatorException;
@@ -14,6 +15,12 @@ class ProjectMemberService
      * @var ProjectMemberRepository
      */
     protected $repository;
+
+    /**
+     * @var ProjectRepository
+     */
+    protected $projectRepository;
+
     /**
      * @var ProjectMemberValidator
      */
@@ -24,9 +31,10 @@ class ProjectMemberService
      * @param ProjectMemberRepository $repository
      * @param ProjectMemberValidator $validator
      */
-    public function __construct(ProjectMemberRepository $repository, ProjectMemberValidator $validator)
+    public function __construct(ProjectMemberRepository $repository, ProjectRepository $projectRepository, ProjectMemberValidator $validator)
     {
         $this->repository = $repository;
+        $this->projectRepository = $projectRepository;
         $this->validator = $validator;
     }
 
@@ -48,13 +56,13 @@ class ProjectMemberService
 
     /**]
      * @param $id
-     * @param $task_id
+     * @param $member_id
      * @return array|mixed
      */
-    public function find($id,$task_id)
+    public function find($id,$member_id)
     {
         try{
-            return $this->repository->findWhere(['project_id' => $id, 'id' => $task_id]);
+            return $this->repository->findWhere(['project_id' => $id, 'member_id' => $member_id]);
 
         } catch (\Exception $e) {
             return [
@@ -73,7 +81,12 @@ class ProjectMemberService
         try {
             $this->validator->with($data)->passesOrFail();
 
-            return $this->repository->create($data);
+            $retorno = $this->projectRepository->addMember($data['project_id'], $data['member_id']);
+
+            return [
+                'success' => $retorno,
+                "message" => 'Membro adicionado ao projeto.'
+            ];
 
         } catch (ValidatorException $e){
             return [
@@ -114,16 +127,17 @@ class ProjectMemberService
     }
 
     /**
-     * @param $id
+     * @param $project_id
+     * @param $member_id
      * @return array
      */
-    public function destroy($id)
+    public function destroy($project_id, $member_id)
     {
         try {
-            $this->repository->delete($id);
+            $this->projectRepository->removeMember($project_id, $member_id);
             return [
                 'success' => true,
-                "message" => 'Membro excluída com sucesso.'
+                "message" => 'Membro excluído com sucesso.'
             ];
         } catch (ModelNotFoundException $e) {
             return [

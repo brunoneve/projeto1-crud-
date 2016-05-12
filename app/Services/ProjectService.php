@@ -56,7 +56,7 @@ class ProjectService
     public function find($id)
     {
         try{
-            return $this->repository->with(['owner','client'])->find($id);
+            return $this->repository->with(['owner','client','members'])->find($id);
 
         } catch (\Exception $e) {
             return [
