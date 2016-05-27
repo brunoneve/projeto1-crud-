@@ -2,6 +2,7 @@
 
 namespace CursoCode\Repositories;
 
+use CursoCode\Presenters\ProjectMemberPresenter;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use CursoCode\Entities\ProjectMember;
@@ -22,13 +23,19 @@ class ProjectMemberRepositoryEloquent extends BaseRepository implements ProjectM
         return ProjectMember::class;
     }
 
-    
-
     /**
      * Boot up the repository, pushing criteria
      */
     public function boot()
     {
         $this->pushCriteria(app(RequestCriteria::class));
+    }
+
+    /**
+     * @return mixed
+     */
+    public function presenter()
+    {
+        return ProjectMemberPresenter::class;
     }
 }

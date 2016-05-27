@@ -8,6 +8,14 @@ use League\Fractal\TransformerAbstract;
 class ProjectTransformer extends TransformerAbstract
 {
 
+    protected $defaultIncludes = [
+        'members', 'client', 'tasks', 'notes'
+    ];
+
+    /**
+     * @param Project $project
+     * @return array
+     */
     public function transform(Project $project)
     {
         return [
@@ -22,4 +30,42 @@ class ProjectTransformer extends TransformerAbstract
             'updated' => $project->updated_at,
         ];
     }
+
+
+    /**
+     * @param Project $project
+     * @return \League\Fractal\Resource\Collection
+     */
+    public function includeMembers(Project $project)
+    {
+        return $this->collection($project->members, new ProjectMemberTransformer());
+    }
+
+    /**
+     * @param Project $project
+     * @return \League\Fractal\Resource\Item
+     */
+    public function includeClient(Project $project)
+    {
+        return $this->item($project->client, new ClientTransformer());
+    }
+
+    /**
+     * @param Project $project
+     * @return \League\Fractal\Resource\Collection
+     */
+    public function includeTasks(Project $project)
+    {
+        return $this->collection($project->tasks, new ProjectTaskTransformer());
+    }
+
+    /**
+     * @param Project $project
+     * @return \League\Fractal\Resource\Collection
+     */
+    public function includeNotes(Project $project)
+    {
+        return $this->collection($project->notes, new ProjectNoteTransformer());
+    }
+
 }
