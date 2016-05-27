@@ -4,6 +4,8 @@ namespace CursoCode\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use CursoCode\Entities\Project;
+use CursoCode\Presenters\ProjectPresenter;
+
 
 /**
  * Class ProjectRepositoryEloquent
@@ -19,6 +21,12 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
     public function model()
     {
         return Project::class;
+    }
+
+
+    public function presenter()
+    {
+        return ProjectPresenter::class;
     }
 
     /**
