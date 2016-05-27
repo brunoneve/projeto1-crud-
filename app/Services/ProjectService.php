@@ -56,6 +56,13 @@ class ProjectService
     public function find($id)
     {
         try{
+            if($this->checkPermissionProject($id) == false)
+            {
+                return [
+                    "error" => true,
+                    "message" => "Você não tem permissão para visualizar esse projeto!"
+                ];
+            }
             return $this->repository->with(['owner','client','members'])->find($id);
 
         } catch (\Exception $e) {
@@ -101,6 +108,14 @@ class ProjectService
         try {
             $this->validator->with($data)->passesOrFail();
 
+            if($this->checkOwner($id) == false)
+            {
+                return [
+                    "error" => true,
+                    "message" => "Você não tem permissão para visualizar esse projeto!"
+                ];
+            }
+
             return $this->repository->update($data,$id);
 
         } catch (ValidatorException $e){
@@ -123,6 +138,15 @@ class ProjectService
     public function destroy($id)
     {
         try {
+
+            if($this->checkOwner($id) == false)
+            {
+                return [
+                    "error" => true,
+                    "message" => "Você não tem permissão para remover esse projeto."
+                ];
+            }
+
             $this->repository->delete($id);
             return [
                 'success' => true,
@@ -144,5 +168,35 @@ class ProjectService
                 "message"    => 'Falha ao excluir Projeto. Tente novamente.'
             ];
         }
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function checkPermissionProject($id)
+    {
+        $userId = \Authorizer::getResourceOwnerId();
+
+        if($this->repository->isOwner($id,$userId) or $this->repository->hasMember($id,$userId))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function checkOwner($id)
+    {
+        $userId = \Authorizer::getResourceOwnerId();
+
+        if($this->repository->isOwner($id,$userId))
+        {
+            return true;
+        }
+        return false;
     }
 }

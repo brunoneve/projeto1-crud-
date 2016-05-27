@@ -67,7 +67,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => CursoCode\User::class,
+            'model' => CursoCode\Entities\User::class,
         ],
 
         // 'users' => [
