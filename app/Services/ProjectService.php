@@ -34,11 +34,12 @@ class ProjectService
 
     /**
      * @return array|mixed
+     * @param $owner_id|int
      */
-    public function all()
+    public function all($owner_id)
     {
         try{
-            return $this->repository->with(['owner','client'])->all();
+            return $this->repository->with(['owner','client','notes','members'])->findWhere(['owner_id' => $owner_id]);
 
         } catch (\Exception $e) {
             return [
@@ -63,7 +64,7 @@ class ProjectService
                     "message" => "Você não tem permissão para visualizar esse projeto!"
                 ];
             }
-            return $this->repository->with(['owner','client','members'])->find($id);
+            return $this->repository->skipPresenter(false)->with(['owner','client','members'])->find($id);
 
         } catch (\Exception $e) {
             return [
@@ -169,6 +170,7 @@ class ProjectService
             ];
         }
     }
+
 
     /**
      * @param $id

@@ -23,12 +23,6 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
         return Project::class;
     }
 
-
-    public function presenter()
-    {
-        return ProjectPresenter::class;
-    }
-
     /**
      * @param $project_id
      * @param $member_id
@@ -80,7 +74,7 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
      */
     public function isOwner($project_id, $user_id)
     {
-        if( count( $this->findWhere(['id' => $project_id, 'owner_id' => $user_id] ) ) ){
+        if( count( $this->skipPresenter()->findWhere(['id' => $project_id, 'owner_id' => $user_id] ) ) ){
             return true;
         }
         return false;
@@ -93,7 +87,7 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
      */
     public function hasMember($project_id, $member_id)
     {
-        $project = $this->find($project_id);
+        $project = $this->skipPresenter()->find($project_id);
 
         foreach($project->members as $member)
         {
@@ -103,5 +97,10 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
             }
         }
         return false;
+    }
+
+    public function presenter()
+    {
+        return ProjectPresenter::class;
     }
 }

@@ -9,7 +9,7 @@ class ProjectTransformer extends TransformerAbstract
 {
 
     protected $defaultIncludes = [
-        'members', 'client', 'tasks', 'notes'
+        'members', 'client', 'tasks', 'notes', 'files'
     ];
 
     /**
@@ -68,4 +68,12 @@ class ProjectTransformer extends TransformerAbstract
         return $this->collection($project->notes, new ProjectNoteTransformer());
     }
 
+    /**
+     * @param Project $project
+     * @return \League\Fractal\Resource\Collection
+     */
+    public function includeFiles(Project $project)
+    {
+        return $this->collection($project->files, new ProjectFileTransformer());
+    }
 }
