@@ -32,7 +32,7 @@ class ClientService
     public function all()
     {
         try{
-            return $this->repository->all();
+            return $this->repository->skipPresenter()->all();
 
         } catch (\Exception $e) {
             return [
@@ -49,7 +49,7 @@ class ClientService
     public function find($id)
     {
         try{
-            return $this->repository->find($id);
+            return $this->repository->skipPresenter()->find($id);
 
         } catch (\Exception $e) {
             return [

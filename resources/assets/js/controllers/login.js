@@ -11,7 +11,8 @@ angular.module('app.controllers')
     }
 
     $scope.login = function () {
-        if($scope.formLogin.$valid){
+        if($scope.formLogin.$valid)
+        {
             OAuth.getAccessToken($scope.user).then(function(){
                 $location.path('home');
             }, function(data){

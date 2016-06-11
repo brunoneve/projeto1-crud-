@@ -1,0 +1,33 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Exclusão de Cliente</div>
+                <div class="panel-body">
+                    <div class="alert alert-danger" ng-show="error.error">
+                        <strong>Oops!</strong> Algo está errado.<br><br>
+                        <div>{{ error.message }}</div>
+                    </div>
+                    <p>Deseja excluir realmente esse cliente ?</p>
+                    <ul>
+                        <li><b>Cliente:</b> {{client.name}}</li>
+                        <li><b>E-mail:</b> {{client.email}}</li>
+                        <li><b>Telefone:</b> {{client.phone}}</li>
+                    </ul>
+
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-danger" ng-click="remove()">
+                                Sim! Excluir
+                            </button>
+                            <a ng-href="#/clients" class="btn btn-default">
+                                Desitir
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
