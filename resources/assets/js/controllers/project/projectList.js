@@ -1,12 +1,10 @@
 angular.module('app.controllers')
-    .controller('ProjectNoteListController',[
-        '$scope', '$routeParams', 'ProjectNote',
-        function($scope, $routeParams, ProjectNote){
-            var projectId = $routeParams.projectId;
+    .controller('ProjectListController',[
+        '$scope', '$routeParams', 'Project',
+        function($scope, $routeParams, Project){
 
-            $scope.projectId = projectId;
-            $scope.projectNotes = ProjectNote.query({projectId: projectId},
+            $scope.projectData = Project.query({},
                 function (data) {
-                    $scope.notes = data.data;
+                    $scope.projects = data.data;
             });
     }]);
