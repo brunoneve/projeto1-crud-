@@ -1,21 +1,17 @@
 angular.module('app.controllers')
-    .controller('ProjectNoteNewController',
-        ['$scope','$location', '$routeParams', 'ProjectNote',
-            function($scope, $location, $routeParams, ProjectNote){
+    .controller('ProjectNewController',
+        ['$scope','$location', '$routeParams', 'Project', 'Client',
+            function($scope, $location, $routeParams, Project, Client){
 
-                var projectId = $routeParams.projectId;
-
-                $scope.projectId = projectId;
-
-                $scope.projectNote = new ProjectNote();
-                $scope.projectNote.project_id = projectId;
+                $scope.project = new Project();
+                $scope.clients = new Client.query();
 
                 $scope.save = function () {
                     if ($scope.form.$valid) {
-                        $scope.projectNote.$save({projectId: projectId})
+                        $scope.project.$save()
                         .then(function ()
                         {
-                            $location.path('/project/' + projectId + '/notes');
+                            $location.path('/projects');
                         });
                     }
                 };
