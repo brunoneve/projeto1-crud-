@@ -16,62 +16,77 @@ app.provider('appConfig', function(){
     };
 });
 
-app.config(['$routeProvider', 'OAuthProvider', 'OAuthTokenProvider', 'appConfigProvider',
-    function($routeProvider,OAuthProvider, OAuthTokenProvider, appConfigProvider){
-    $routeProvider
-        .when('/login', {
-            templateUrl: 'build/views/login.html',
-            controller:'LoginController'
-        })
-        .when('/home', {
-            templateUrl: 'build/views/home.html',
-            controller:'HomeController'
-        })
-        .when('/clients', {
-            templateUrl: 'build/views/client/list.html',
-            controller:'ClientListController'
-        })
-        .when('/clients/new', {
-            templateUrl: 'build/views/client/new.html',
-            controller:'ClientNewController'
-        })
-        .when('/clients/:id/edit', {
-            templateUrl: 'build/views/client/edit.html',
-            controller:'ClientEditController'
-        })
-        .when('/clients/:id/remove', {
-            templateUrl: 'build/views/client/remove.html',
-            controller:'ClientRemoveController'
-        })
-        .when('/project/:projectId/notes', {
-            templateUrl: 'build/views/project-note/list.html',
-            controller: 'ProjectNoteListController'
-        })
-        .when('/project/:projectId/notes/new', {
-            templateUrl: 'build/views/project-note/new.html',
-            controller: 'ProjectNoteNewController'
-        })
-        .when('/project/:projectId/notes/:id/edit', {
-            templateUrl: 'build/views/project-note/edit.html',
-            controller: 'ProjectNoteEditController'
-        })
-        .when('/project/:projectId/notes/:id/remove', {
-            templateUrl: 'build/views/project-note/remove.html',
-            controller: 'ProjectNoteRemoveController'
-        });
+app.config(['$routeProvider', '$httpProvider', 'OAuthProvider', 'OAuthTokenProvider', 'appConfigProvider',
+    function($routeProvider, $httpProvider, OAuthProvider, OAuthTokenProvider, appConfigProvider){
 
-    OAuthProvider.configure({
-        baseUrl: appConfigProvider.config.baseUrl,
-        clientId: 'appid1',
-        clientSecret: 'secret', // optional
-        grantPath: 'oauth/access_token'
-    });
-    OAuthTokenProvider.configure({
-        name:'token',
-        options: {
-            secure:false
-        }
-    })
+        $httpProvider.defaults.transformResponse = function(data,headers) {
+            var headersGetter = headers();
+            if(headersGetter['content-type'] == 'application/json' ||
+                headersGetter['content-type'] == 'text/json'){
+                var dataJson = JSON.parse(data);
+
+                if(dataJson.hasOwnProperty('data')){
+                    dataJson = dataJson.data;
+                }
+                return dataJson;
+            }
+            return data;
+        };
+
+        $routeProvider
+            .when('/login', {
+                templateUrl: 'build/views/login.html',
+                controller:'LoginController'
+            })
+            .when('/home', {
+                templateUrl: 'build/views/home.html',
+                controller:'HomeController'
+            })
+            .when('/clients', {
+                templateUrl: 'build/views/client/list.html',
+                controller:'ClientListController'
+            })
+            .when('/clients/new', {
+                templateUrl: 'build/views/client/new.html',
+                controller:'ClientNewController'
+            })
+            .when('/clients/:id/edit', {
+                templateUrl: 'build/views/client/edit.html',
+                controller:'ClientEditController'
+            })
+            .when('/clients/:id/remove', {
+                templateUrl: 'build/views/client/remove.html',
+                controller:'ClientRemoveController'
+            })
+            .when('/project/:projectId/notes', {
+                templateUrl: 'build/views/project-note/list.html',
+                controller: 'ProjectNoteListController'
+            })
+            .when('/project/:projectId/notes/new', {
+                templateUrl: 'build/views/project-note/new.html',
+                controller: 'ProjectNoteNewController'
+            })
+            .when('/project/:projectId/notes/:id/edit', {
+                templateUrl: 'build/views/project-note/edit.html',
+                controller: 'ProjectNoteEditController'
+            })
+            .when('/project/:projectId/notes/:id/remove', {
+                templateUrl: 'build/views/project-note/remove.html',
+                controller: 'ProjectNoteRemoveController'
+            });
+
+        OAuthProvider.configure({
+            baseUrl: appConfigProvider.config.baseUrl,
+            clientId: 'appid1',
+            clientSecret: 'secret', // optional
+            grantPath: 'oauth/access_token'
+        });
+        OAuthTokenProvider.configure({
+            name:'token',
+            options: {
+                secure:false
+            }
+        })
 }]);
 
 app.run(['$rootScope', '$window', 'OAuth', function($rootScope, $window, OAuth) {

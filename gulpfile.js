@@ -34,17 +34,26 @@ config.vendor_path_css = [
     config.bower_path + '/bootstrap/dist/css/bootstrap-theme.min.css'
 ];
 
-config.build_path_fonts = config.build_path +'/css';
-config.build_vendor_path_fonts = config.build_path_fonts +'/fonts';
-config.vendor_path_fonts = [
-    config.bower_path + '/bootstrap/fonts/glyphicons-halflings-regular.eot',
-    config.bower_path + '/bootstrap/fonts/glyphicons-halflings-regular.svg',
-    config.bower_path + '/bootstrap/fonts/glyphicons-halflings-regular.ttf',
-    config.bower_path + '/bootstrap/fonts/glyphicons-halflings-regular.woff',
-    config.bower_path + '/bootstrap/fonts/glyphicons-halflings-regular.woff2'
-];
 
 config.build_path_html = config.build_path +'/views';
+config.build_path_font = config.build_path +'/fonts';
+config.build_path_image = config.build_path +'/images';
+
+gulp.task('copy-font', function() {
+    gulp.src([
+            config.assets_path + '/fonts/**/*'
+        ])
+        .pipe(gulp.dest(config.build_path_font))
+        .pipe(liveReload());
+});
+
+gulp.task('copy-image', function() {
+    gulp.src([
+            config.assets_path + '/images/**/*'
+        ])
+        .pipe(gulp.dest(config.build_path_image))
+        .pipe(liveReload());
+});
 
 gulp.task('copy-html', function() {
     gulp.src([
@@ -67,26 +76,6 @@ gulp.task('copy-styles', function (){
     //CSS terceiros
     gulp.src(config.vendor_path_css)
         .pipe(gulp.dest(config.build_vendor_path_css))
-        .pipe(liveReload());
-});
-
-/**
- * Tarefa para copiar Fonts-icons Bootstrap
- */
-gulp.task('copy-fonts', function (){
-    gulp.src([
-            config.assets_path + '/css/fonts/*.eot',
-            config.assets_path + '/css/fonts/*.svg',
-            config.assets_path + '/css/fonts/*.ttf',
-            config.assets_path + '/css/fonts/*.woff',
-            config.assets_path + '/css/fonts/*.woff2'
-        ])
-        .pipe(gulp.dest(config.build_path_fonts))
-        .pipe(liveReload());
-
-    //CSS terceiros
-    gulp.src(config.vendor_path_fonts)
-        .pipe(gulp.dest(config.build_vendor_path_fonts))
         .pipe(liveReload());
 });
 
@@ -117,7 +106,7 @@ gulp.task('clear-build-folder', function (){
  * Gulp default
  */
 gulp.task('default', ['clear-build-folder'], function(){
-    gulp.start('copy-html');
+    gulp.start('copy-html','copy-font','copy-image');
     elixir(function(mix){
 
         mix.styles(config.vendor_path_css.concat([config.assets_path + '/css/**/*.css']),
@@ -135,8 +124,8 @@ gulp.task('default', ['clear-build-folder'], function(){
  */
 gulp.task('watch-dev', ['clear-build-folder'], function(){
     liveReload.listen();
-    gulp.start('copy-styles', 'copy-fonts','copy-scripts','copy-html');
+    gulp.start('copy-styles', 'copy-font', 'copy-image', 'copy-scripts','copy-html');
     gulp.watch(config.assets_path + '/**', [
-        'copy-styles', 'copy-fonts', 'copy-scripts', 'copy-html'
+        'copy-styles', 'copy-font', 'copy-image', 'copy-scripts', 'copy-html'
     ]);
 });
