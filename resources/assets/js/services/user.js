@@ -2,7 +2,8 @@ angular.module('app.services')
     .service('User', ['$resource','appConfig', function($resource,appConfig){
         return $resource(appConfig.baseUrl + '/user', {}, {
             authenticated: {
-                method:'PUT'
+                url: appConfig.baseUrl + '/user/authenticated',
+                method:'GET'
             }
         });
    }]);

@@ -25,7 +25,7 @@ class UserController extends Controller
      */
     public function authenticated()
     {
-        $userId = Authorizer::getResourceOwnerId();
+        $userId = \Authorizer::getResourceOwnerId();
         return $this->service->find($userId);
     }
 
