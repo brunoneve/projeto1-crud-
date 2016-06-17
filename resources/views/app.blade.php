@@ -100,6 +100,7 @@
 		<script src="{{ asset('build/js/controllers/project-note/projectNoteRemove.js') }}"></script>
 
 		<!-- Services -->
+		<script src="{{ asset('build/js/services/user.js') }}"></script>
 		<script src="{{ asset('build/js/services/client.js') }}"></script>
 		<script src="{{ asset('build/js/services/projectNote.js') }}"></script>
 
