@@ -1,0 +1,43 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <a ng-href="#/projects/new" class="btn btn-default">
+                Criar Projeto
+            </a>
+            <div class="panel panel-default" style="margin-top:10px;">
+                <div class="panel-heading">Listagem de projetos</div>
+                <div class="panel-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Cliente</th>
+                                <th>Progresso</th>
+                                <th>Status</th>
+                                <th>Due Date</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="o in projects">
+                                <td>{{ o.project }}</td>
+                                <td>{{ o.client.data.name }}</td>
+                                <td>{{ o.progress }}</td>
+                                <td>{{ o.status }}</td>
+                                <td>{{ o.due_date | dateBr }}</td>
+                                <td>
+                                    <a ng-href="#/projects/{{ o.project_id }}/edit" title="Editar" class="btn btn-sm btn-default">
+                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                    </a>
+                                    <a ng-href="#/project/{{ o.project_id }}/remove" title="Excluir" class="btn btn-sm btn-danger">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
