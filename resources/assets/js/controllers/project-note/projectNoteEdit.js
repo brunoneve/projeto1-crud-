@@ -9,8 +9,7 @@ angular.module('app.controllers')
                     projectId: projectId,
                     id: $routeParams.id
                 }, function (data) {
-                    
-                    $scope.projectNote = data.data[0];
+                    $scope.projectNote = data.data
                 });
 
 

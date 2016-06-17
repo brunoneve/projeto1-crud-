@@ -54,7 +54,14 @@ class ProjectNoteService
     public function find($id,$note_id)
     {
         try{
-            return $this->repository->findWhere(['project_id' => $id, 'id' => $note_id]);
+            $data = $this->repository->findWhere(['project_id' => $id, 'id' => $note_id]);
+
+            if (isset($data['data']) && count($data['data'])) {
+                return [
+                    'data' => current($data['data'])
+                ];
+            }
+            return $data;
 
         } catch (\Exception $e) {
             return [

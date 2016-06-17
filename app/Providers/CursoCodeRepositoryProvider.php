@@ -24,6 +24,10 @@ class CursoCodeRepositoryProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(
+            \CursoCode\Repositories\UserRepository::class,
+            \CursoCode\Repositories\UserRepositoryEloquent::class
+        );
+        $this->app->bind(
             \CursoCode\Repositories\ClientRepository::class,
             \CursoCode\Repositories\ClientRepositoryEloquent::class
         );

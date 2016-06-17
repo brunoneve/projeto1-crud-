@@ -10,7 +10,7 @@ angular.module('app.controllers')
                     id: $routeParams.id
                 }, function (data) {
                     
-                    $scope.projectNote = data.data[0];
+                    $scope.projectNote = data.data;
                 });
 
                 $scope.remove = function () {

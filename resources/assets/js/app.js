@@ -19,7 +19,7 @@ app.provider('appConfig', function(){
 app.config(['$routeProvider', '$httpProvider', 'OAuthProvider', 'OAuthTokenProvider', 'appConfigProvider',
     function($routeProvider, $httpProvider, OAuthProvider, OAuthTokenProvider, appConfigProvider){
 
-        $httpProvider.defaults.transformResponse = function(data,headers) {
+        /*$httpProvider.defaults.transformResponse = function(data,headers) {
             var headersGetter = headers();
             if(headersGetter['content-type'] == 'application/json' ||
                 headersGetter['content-type'] == 'text/json'){
@@ -31,7 +31,7 @@ app.config(['$routeProvider', '$httpProvider', 'OAuthProvider', 'OAuthTokenProvi
                 return dataJson;
             }
             return data;
-        };
+        };*/
 
         $routeProvider
             .when('/login', {
