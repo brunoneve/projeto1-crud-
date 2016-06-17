@@ -4,7 +4,9 @@ angular.module('app.controllers')
             function($scope, $location, $routeParams, Project, Client){
 
                 $scope.project = new Project();
-                $scope.clients = new Client.query();
+                $scope.clientsData = new Client.query({}, function (data) {
+                    $scope.clients = data.data;
+                });
 
                 $scope.save = function () {
                     if ($scope.form.$valid) {
