@@ -5,8 +5,5 @@ angular.module('app.controllers')
             var projectId = $routeParams.projectId;
 
             $scope.projectId = projectId;
-            $scope.projectNotes = ProjectNote.query({projectId: projectId},
-                function (data) {
-                    $scope.notes = data.data;
-            });
+            $scope.notes = ProjectNote.query({projectId: projectId});
     }]);

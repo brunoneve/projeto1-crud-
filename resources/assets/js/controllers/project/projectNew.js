@@ -1,15 +1,15 @@
 angular.module('app.controllers')
     .controller('ProjectNewController',
-        ['$scope','$location', '$routeParams', 'Project', 'Client',
-            function($scope, $location, $routeParams, Project, Client){
+        ['$scope','$location', '$cookies', '$routeParams', 'Project', 'Client', 'appConfig',
+            function($scope, $location, $cookies, $routeParams, Project, Client, appConfig){
 
                 $scope.project = new Project();
-                $scope.clientsData = new Client.query({}, function (data) {
-                    $scope.clients = data.data;
-                });
+                $scope.clients = new Client.query();
+                $scope.status = appConfig.project.status;
 
                 $scope.save = function () {
                     if ($scope.form.$valid) {
+                        $scope.project.owner_id = $cookies.getObject('user').id;
                         $scope.project.$save()
                         .then(function ()
                         {

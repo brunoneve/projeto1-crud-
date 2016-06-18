@@ -5,12 +5,9 @@ angular.module('app.controllers')
                 var projectId = $routeParams.projectId;
                 $scope.projectId = projectId;
 
-                ProjectNote.get({
+                $scope.note = ProjectNote.get({
                     projectId: projectId,
                     id: $routeParams.id
-                }, function (data) {
-                    
-                    $scope.projectNote = data.data;
                 });
 
                 $scope.remove = function () {
