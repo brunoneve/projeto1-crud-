@@ -3,6 +3,7 @@
 namespace CursoCode\Services;
 
 
+use CursoCode\Presenters\ProjectPresenter;
 use CursoCode\Repositories\ProjectRepository;
 use CursoCode\Validators\ProjectValidator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -64,7 +65,8 @@ class ProjectService
                     "message" => "Você não tem permissão para visualizar esse projeto!"
                 ];
             }
-            return $this->repository->skipPresenter(false)->with(['owner','client','members'])->find($id);
+
+            return $this->repository->skipPresenter(true)->with(['owner','client','notes','members'])->find($id);
 
         } catch (\Exception $e) {
             return [

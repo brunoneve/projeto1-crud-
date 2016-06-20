@@ -6,7 +6,7 @@ angular.module('app.controllers', ['ngMessages', 'angular-oauth2']);
 angular.module('app.filters', []);
 angular.module('app.services', ['ngResource']);
 
-app.provider('appConfig', function(){
+app.provider('appConfig', ['$httpParamSerializerProvider', function ($httpParamSerializerProvider){
     var config = {
         baseUrl: 'http://localhost:8000',
         project:{
@@ -15,6 +15,28 @@ app.provider('appConfig', function(){
                 {value: '2', label:'Iniciado'},
                 {value: '3', label:'Concluído'}
             ]
+        },
+        utils: {
+            transformRequest: function (data) {
+                if (angular.isObject(data)) {
+                    return $httpParamSerializerProvider.$get()(data);
+                }
+                return data;
+            },
+
+            transformResponse: function(data,headers){
+                var headersGetter = headers();
+                if(headersGetter['content-type'] == 'application/json' ||
+                    headersGetter['content-type'] == 'text/json'){
+                    var dataJson = JSON.parse(data);
+
+                    if(dataJson.hasOwnProperty('data')){
+                        dataJson = dataJson.data;
+                    }
+                    return dataJson;
+                }
+                return data;
+            }
         }
     };
 
@@ -24,25 +46,15 @@ app.provider('appConfig', function(){
             return config;
         }
     };
-});
+}]);
 
 app.config(['$routeProvider', '$httpProvider', 'OAuthProvider', 'OAuthTokenProvider', 'appConfigProvider',
     function($routeProvider, $httpProvider, OAuthProvider, OAuthTokenProvider, appConfigProvider){
+        $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+        $httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 
-        $httpProvider.defaults.transformResponse = function(data,headers) {
-            var headersGetter = headers();
-            if(headersGetter['content-type'] == 'application/json' ||
-                headersGetter['content-type'] == 'text/json'){
-                var dataJson = JSON.parse(data);
-
-                if(dataJson.hasOwnProperty('data')){
-                    dataJson = dataJson.data;
-                }
-                return dataJson;
-            }
-            return data;
-        };
-
+        $httpProvider.defaults.transformRequest = appConfigProvider.config.utils.transformRequest;
+        $httpProvider.defaults.transformResponse = appConfigProvider.config.utils.transformResponse;
         $routeProvider
             .when('/login', {
                 templateUrl: 'build/views/login.html',

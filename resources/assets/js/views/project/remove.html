@@ -2,16 +2,17 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Exclusão de Nota do projeto</div>
+                <div class="panel-heading">Exclusão de projeto</div>
                 <div class="panel-body">
                     <div class="alert alert-danger" ng-show="error.error">
                         <strong>Oops!</strong> Algo está errado.<br><br>
                         <div>{{ error.message }}</div>
                     </div>
-                    <p>Deseja excluir realmente essa nota ?</p>
+                    <p>Deseja excluir realmente esse projeto ?</p>
                     <ul>
-                        <li><b>Título:</b> {{projectNote.title}}</li>
-                        <li><b>Nota:</b> {{projectNote.note}}</li>
+                        <li><b>Projeto:</b> {{project.name}}</li>
+                        <li><b>Cliente:</b> {{project.client.name}}</li>
+                        <li><b>Descrição:</b> {{project.description}}</li>
                     </ul>
 
                     <div class="form-group">
@@ -19,7 +20,7 @@
                             <button type="button" class="btn btn-danger" ng-click="remove()">
                                 Sim! Excluir
                             </button>
-                            <a ng-href="#/project/{{ projectId }}/notes" class="btn btn-default">
+                            <a ng-href="#/projects" class="btn btn-default">
                                 Desitir
                             </a>
                         </div>
