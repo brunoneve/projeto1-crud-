@@ -1,5 +1,6 @@
 var app = angular.module('app',[
-    'ngRoute', 'angular-oauth2', 'app.controllers', 'app.filters', 'app.services'
+    'ngRoute', 'angular-oauth2', 'app.controllers', 'app.filters', 'app.services',
+    "ui.bootstrap.typeahead"
 ]);
 
 angular.module('app.controllers', ['ngMessages', 'angular-oauth2']);
