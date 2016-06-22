@@ -66,7 +66,7 @@ class ProjectService
                 ];
             }
 
-            return $this->repository->skipPresenter(true)->with(['owner','client','notes','members'])->find($id);
+            return $this->repository->skipPresenter(false)->with(['owner','client'])->find($id);
 
         } catch (\Exception $e) {
             return [

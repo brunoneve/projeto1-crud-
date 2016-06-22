@@ -19,11 +19,11 @@ class ProjectTransformer extends TransformerAbstract
     public function transform(Project $project)
     {
         return [
-            'project_id' => $project->id,
+            'id' => $project->id,
             'client_id' => (int) $project->client_id,
             'owner_id' => (int) $project->owner_id,
             'progress' => (int) $project->progress,
-            'status' => (int) $project->status,
+            'status' => $project->status,
             'name' => $project->name,
             'description' => $project->description,
             'due_date' => $project->due_date,
@@ -33,46 +33,30 @@ class ProjectTransformer extends TransformerAbstract
     }
 
 
-    /**
-     * @param Project $project
-     * @return \League\Fractal\Resource\Collection
-     */
+
     public function includeMembers(Project $project)
     {
         return $this->collection($project->members, new ProjectMemberTransformer());
     }
 
-    /**
-     * @param Project $project
-     * @return \League\Fractal\Resource\Item
-     */
+
     public function includeClient(Project $project)
     {
         return $this->item($project->client, new ClientTransformer());
     }
 
-    /**
-     * @param Project $project
-     * @return \League\Fractal\Resource\Collection
-     */
+
     public function includeTasks(Project $project)
     {
         return $this->collection($project->tasks, new ProjectTaskTransformer());
     }
 
-    /**
-     * @param Project $project
-     * @return \League\Fractal\Resource\Collection
-     */
+
     public function includeNotes(Project $project)
     {
         return $this->collection($project->notes, new ProjectNoteTransformer());
     }
 
-    /**
-     * @param Project $project
-     * @return \League\Fractal\Resource\Collection
-     */
     public function includeFiles(Project $project)
     {
         return $this->collection($project->files, new ProjectFileTransformer());
