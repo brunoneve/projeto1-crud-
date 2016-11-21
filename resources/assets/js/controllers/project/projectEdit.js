@@ -1,9 +1,12 @@
 angular.module('app.controllers')
     .controller('ProjectEditController',
-        ['$scope', '$location', '$cookies', '$routeParams', 'Project', 'Client', 'appConfig',
-            function ($scope, $location, $cookies, $routeParams, Project, Client, appConfig) {
+        ['$scope', '$location', '$cookies', '$routeParams', 'Project', 'Client', 'appConfig', 'limitToFilter',
+            function ($scope, $location, $cookies, $routeParams, Project, Client, appConfig,limitToFilter) {
 
-                $scope.project = Project.get({id: $routeParams.id});
+                Project.get({id: $routeParams.id}, function (data){
+                    $scope.project = data;
+                    $scope.client = data.client.data;
+                });
                 $scope.clients = new Client.query();
                 $scope.status = appConfig.project.status;
 
@@ -16,5 +19,26 @@ angular.module('app.controllers')
                         });
                     }
                 };
+
+                $scope.formatName = function(model){
+                    if(model){
+                        return model.name;
+                    }
+                    return '';
+                };
+
+                $scope.getClients = function(name){
+                    return Client.query({
+                        search: name,
+                        searchFields: 'name:like'
+                    }).$promise.then(function(data) {
+                        return limitToFilter(data, 10);
+                    });
+                };
+
+                $scope.selectClient = function (item) {
+                    $scope.project.client_id = item.id;
+                };
+
             }
         ]);

@@ -14,12 +14,18 @@
                         <div class="form-group" ng-class="{'has-error': !form.client_id.$valid && form.client_id.$touched}">
                             <label class="col-md-4 control-label">Cliente</label>
                             <div class="col-md-6">
-                                <input class="form-control" type="text" name="client_id" ng-model="project.client_id"
-                                    autocomplete="on" typeahead="o.id as o.name for o in getClients($viewValue)|limitTo:10"
-                                       typeahead-input-formatter="formatName($model)" />
+                                <input class="form-control" type="text" name="client_id" ng-model="clientSelected"
+                                       uib-typeahead="o as o.name for o in getClients($viewValue)"
+                                       typeahead-input-formatter="formatName($model)"
+                                       typeahead-on-select="selectClient($item)"
+                                       typeahead-editable="false"
+                                       typeahead-loading="loadingClients"
+                                       typeahead-min-length="3" required >
+                                <i ng-show="loadingClients" class="glyphicon glyphicon-refresh"></i>
                           
                                 <div ng-messages="form.client_id.$error" class="help-block" ng-show="form.client_id.$touched">
                                     <div ng-message="required">Campo obrigatório</div>
+                                    <div ng-message="editable">Selecione um cliente válido</div>
                                 </div>
                             </div>
                         </div>

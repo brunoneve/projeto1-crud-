@@ -1,7 +1,7 @@
 angular.module('app.controllers')
     .controller('ProjectNewController',
-        ['$scope','$location', '$cookies', '$routeParams', 'Project', 'Client', 'appConfig',
-            function($scope, $location, $cookies, $routeParams, Project, Client, appConfig){
+        ['$scope','$location', '$cookies', '$routeParams', 'Project', 'Client', 'appConfig', 'limitToFilter',
+            function($scope, $location, $cookies, $routeParams, Project, Client, appConfig,limitToFilter){
 
                 $scope.project = new Project();
                 $scope.clients = new Client.query();
@@ -18,20 +18,24 @@ angular.module('app.controllers')
                     }
                 };
 
-                $scope.formatName = function(id){
-                    if(id){
-                      for(var i in $scope.clients){
-                          if($scope.clients[i].id == id){
-                              return $scope.clients[i].name;
-                          }
-                      }  
+                $scope.formatName = function(model){
+                    if(model){
+                        return model.name;
                     }
                     return '';
                 };
 
                 $scope.getClients = function(name){
                     return Client.query({
-                        search: name+'&searchfields=name:like'
-                    }).$promise;
-                }
+                        search: name,
+                        searchFields: 'name:like'
+                    }).$promise.then(function(data) {
+                        return limitToFilter(data, 10);
+                    });
+                };
+
+                $scope.selectClient = function (item) {
+                    $scope.project.client_id = item.id;
+                };
+
     }]);
