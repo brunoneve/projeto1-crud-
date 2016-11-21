@@ -46,6 +46,21 @@ class ProjectFileService
         $this->storage = $storage;
     }
 
+    /**
+     * @param $id
+     * @return array|mixed
+     */
+    public function all($id)
+    {
+        try{
+            return $this->repository->findWhere(['project_id' => $id]);
+        } catch (\Exception $e) {
+            return [
+                "error"      => true,
+                "message"    => 'Nenhuma arquivo encontrado para esse projeto.'
+            ];
+        }
+    }
 
     /**
      * @param array $data

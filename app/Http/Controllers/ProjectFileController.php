@@ -30,6 +30,14 @@ class ProjectFileController extends Controller
         $this->projectService = $projectService;
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function index($id)
+    {
+        return $this->service->all($id);
+    }
 
     /**
      * @param Request $request
