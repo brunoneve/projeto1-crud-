@@ -11,12 +11,16 @@ angular.module('app.services', ['ngResource']);
 app.provider('appConfig', ['$httpParamSerializerProvider', function ($httpParamSerializerProvider){
     var config = {
         baseUrl: 'http://localhost:8000',
+
         project:{
             status: [
                 {value: '1', label:'Não Iniciado'},
                 {value: '2', label:'Iniciado'},
                 {value: '3', label:'Concluído'}
             ]
+        },
+        urls: {
+            projectFile: '/project/{{projectId}}/file/{{id}}'
         },
         utils: {
             transformRequest: function (data) {

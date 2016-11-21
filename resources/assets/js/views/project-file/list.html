@@ -5,27 +5,27 @@
                 Criar Nota
             </a>
             <div class="panel panel-default" style="margin-top:10px;">
-                <div class="panel-heading">Listagem de Notas do projeto</div>
+                <div class="panel-heading">Listagem de arquivos do projeto</div>
                 <div class="panel-body">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
                                 <th>Nome</th>
-                                <th>Responsável</th>
-                                <th>E-mail</th>
+                                <th>Descrição</th>
+                                <th>Link</th>
                                 <th>Ação</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="o in notes">
-                                <td>{{ o.note_id }}</td>
-                                <td>{{ o.title }}</td>
-                                <td>{{ o.note | limitTo: 60 }} [...]</td>
+                            <tr ng-repeat="o in files">
+                                <td>{{ o.name }}</td>
+                                <td>{{ o.description | limitTo: 25 }} [...]</td>
+                                <td><a ng-href="/project/file/{{o.id}}/download" target="_blank" class="btn btn-info"> Download</a></td>
                                 <td>
-                                    <a ng-href="#/project/{{ o.project_id }}/notes/{{ o.note_id }}/edit" title="Editar" class="btn btn-sm btn-default">
+                                    <a ng-href="#/project/{{ o.project_id }}/files/{{ o.id }}/edit" title="Editar" class="btn btn-sm btn-default">
                                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                                     </a>
-                                    <a ng-href="#/project/{{ o.project_id }}/notes/{{ o.note_id }}/remove" title="Excluir" class="btn btn-sm btn-danger">
+                                    <a ng-href="#/project/{{ o.project_id }}/files/{{ o.id }}/remove" title="Excluir" class="btn btn-sm btn-danger">
                                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                     </a>
                                 </td>
