@@ -3,6 +3,7 @@
 namespace CursoCode\Http\Controllers;
 
 use CursoCode\Services\ProjectFileService;
+use CursoCode\Services\ProjectService;
 use Illuminate\Http\Request;
 
 
@@ -13,14 +14,20 @@ class ProjectFileController extends Controller
      * @var ProjectFileService
      */
     private $service;
+    /**
+     * @var ProjectService
+     */
+    private $projectService;
 
     /**
      * ProjectFileController constructor.
      * @param ProjectFileService $service
+     * @param ProjectService $projectService
      */
-    public function __construct(ProjectFileService $service)
+    public function __construct(ProjectFileService $service, ProjectService $projectService)
     {
         $this->service = $service;
+        $this->projectService = $projectService;
     }
 
 
@@ -46,6 +53,14 @@ class ProjectFileController extends Controller
 
         $this->service->create($data);
 
+    }
+
+    public function showFile($id)
+    {
+        if($this->projectService->checkPermissionProject($id) == false){
+            return ['error' => 'Access Forbidden'];
+        }
+        return response()->download($this->service->getFilePath($id));
     }
 
     /**

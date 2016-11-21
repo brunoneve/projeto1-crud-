@@ -3,7 +3,7 @@
 namespace CursoCode\Repositories;
 
 use CursoCode\Entities\ProjectFile;
-use CursoCode\Presenters\ProjectPresenter;
+use CursoCode\Presenters\ProjectFilePresenter;
 use Prettus\Repository\Eloquent\BaseRepository;
 
 
@@ -30,5 +30,10 @@ class ProjectFileRepositoryEloquent extends BaseRepository implements ProjectFil
     public function getFiles($project_id)
     {
         return $this->findWhere(['project_id' => $project_id]);
+    }
+
+    public function presenter()
+    {
+        return ProjectFilePresenter::class;
     }
 }

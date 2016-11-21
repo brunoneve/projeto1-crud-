@@ -78,6 +78,20 @@ class ProjectFileService
         }
     }
 
+    public function getFilePath($id)
+    {
+        $projectFile = $this->repository->skipPresenter()->find($id);
+        return $this->getBaseUrl($projectFile);
+    }
+
+    private function getBaseUrl($projectFile)
+    {
+        switch ($this->storage->getDefaultDriver()){
+            case 'local':
+                return $this->storage->getDriver()->getAdapter()->getPathPrefix().'/'.$projectFile->id.'.'.$projectFile->extension;
+        }
+    }
+
     /**
      * @param $project_id
      * @param $id
@@ -86,7 +100,7 @@ class ProjectFileService
     public function destroy($project_id, $id)
     {
         try {
-            $projectFile = $this->repository->find($id);
+            $projectFile = $this->repository->skipPresenter()->find($id);
 
             if ($this->storage->exists($projectFile->getFileName()))
             {
