@@ -1,6 +1,6 @@
 var app = angular.module('app',[
     'ngRoute', 'angular-oauth2', 'app.controllers', 'app.filters', 'app.services',
-    'ui.bootstrap.tpls', 'ui.bootstrap.typeahead', 'ui.bootstrap.datepicker'
+    'ui.bootstrap.tpls', 'ui.bootstrap.typeahead', 'ui.bootstrap.datepicker','ui.bootstrap.datepickerPopup'
 ]);
 
 angular.module('app.controllers', ['ngMessages', 'angular-oauth2']);
