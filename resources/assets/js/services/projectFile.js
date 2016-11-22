@@ -4,12 +4,16 @@ angular.module('app.services')
         return $resource(url,
             {
                 projectId:'@projectId',
-                id:'@id'
+                idFile:'@idFile'
             },
 
             {
                 update: {
                     method:'PUT'
+                },
+                download: {
+                    method: 'GET',
+                    url: url + '/download'
                 }
         });
    }]);

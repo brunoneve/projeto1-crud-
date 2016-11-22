@@ -51,11 +51,11 @@ Route::group(['middleware' => 'oauth'], function() {
          * File projects
          */
         Route::get('{id}/file', 'ProjectFileController@index');
-        Route::get('{id}/file/{idFile}', 'ProjectFileController@show');
+        Route::get('/file/{idFile}', 'ProjectFileController@show');
         Route::get('/file/{idFile}/download', 'ProjectFileController@showFile');
         Route::post('{id}/file', 'ProjectFileController@store');
-        Route::put('{id}/file', 'ProjectFileController@update');
-        Route::delete('{id}/file/{idFile}', 'ProjectFileController@destroy');
+        Route::put('/file/{idFile}', 'ProjectFileController@update');
+        Route::delete('/file/{idFile}', 'ProjectFileController@destroy');
     });
 
     Route::get('user/authenticated', 'UserController@authenticated');

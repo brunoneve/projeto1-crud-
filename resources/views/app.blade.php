@@ -113,6 +113,8 @@
 		<script src="{{ asset('build/js/controllers/project-file/projectFileRemove.js') }}"></script>
 		<!-- Filters-->
 		<script src="{{ asset('build/js/filters/date-br.js') }}"></script>
+		<!-- Directives-->
+		<script src="{{ asset('build/js/directives/projectFileDownload.js') }}"></script>
 		<!-- Services -->
 		<script src="{{ asset('build/js/services/url.js') }}"></script>
 		<script src="{{ asset('build/js/services/user.js') }}"></script>

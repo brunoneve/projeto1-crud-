@@ -20,7 +20,7 @@
                             <tr ng-repeat="o in files">
                                 <td>{{ o.name }}</td>
                                 <td>{{ o.description | limitTo: 25 }} [...]</td>
-                                <td><a ng-href="/project/file/{{o.id}}/download" target="_blank" class="btn btn-info"> Download</a></td>
+                                <td><project-file-download id-file="{{o.id}}"></project-file-download></td>
                                 <td>
                                     <a ng-href="#/project/{{ o.project_id }}/files/{{ o.id }}/edit" title="Editar" class="btn btn-sm btn-default">
                                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>

@@ -63,12 +63,19 @@ class ProjectFileController extends Controller
 
     }
 
+    public function show($id)
+    {
+        return $this->service->find($id);
+    }
+
+    public function update(Request $request, $id)
+    {
+        return $this->service->update($request->all(), $id);
+    }
+    
     public function showFile($id)
     {
-        if($this->projectService->checkPermissionProject($id) == false){
-            return ['error' => 'Access Forbidden'];
-        }
-        return response()->download($this->service->getFilePath($id));
+        return $this->service->downloadFile($id);
     }
 
     /**
@@ -76,8 +83,8 @@ class ProjectFileController extends Controller
      * @param $id
      * @return array
      */
-    public function destroy($project_id, $id)
+    public function destroy($id)
     {
-        return $this->service->destroy($project_id, $id);
+        return $this->service->destroy($id);
     }
 }
